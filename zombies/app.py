@@ -1,13 +1,15 @@
 from types import SimpleNamespace
 import random
 import math
-
 import sys
 
 # ST_INIT = time.time()
 
 DEPTH = 3
 MY_MOVE_RANGE = 1000
+MY_MOVE_RANGE_SQUARE = MY_MOVE_RANGE * MY_MOVE_RANGE
+ZOMBIE_MOVE_RANGE = 400
+ZOMBIE_MOVE_RANGE_SQUARE = ZOMBIE_MOVE_RANGE * ZOMBIE_MOVE_RANGE
 MY_KILL_RANGE_SQUARE = 4000000
 ZOMBIE_KILL_RANGE_SQUARE = 160000
 GENERATOR_RANGE = 3000
@@ -29,6 +31,29 @@ def rnd(n, b=0):
 
 def truncate_value(x, min_, max_):
     return max(min_, min(max_, x))
+
+
+def get_data():
+
+    my_x, my_y = [int(i) for i in input().split()]
+
+    # fill humans_ list
+    human_count = int(input())
+    humans_ = []
+
+    for i in range(human_count):
+        human_id, human_x, human_y = [int(j) for j in input().split()]
+        humans_.append(Human(human_id, human_x, human_y))
+
+    # fill zombies list
+    zombie_count = int(input())
+    zombies_ = []
+
+    for i in range(zombie_count):
+        zombie_id, zombie_x, zombie_y, zombie_next_x, zombie_next_y = [int(j) for j in input().split()]
+        zombies_.append(Zombie(zombie_id, zombie_x, zombie_y, zombie_next_x, zombie_next_y))
+
+    return [my_x, my_y, humans_, zombies_]
 
 
 class Vector:
@@ -84,10 +109,6 @@ class Human(Point):
         self.id = id_
         self.alive = True
 
-    def update(self, x, y):
-        self.x = x
-        self.y = y
-
 
 class Zombie(Point):
     def __init__(self, id_, x, y, next_x, next_y):
@@ -97,33 +118,25 @@ class Zombie(Point):
         self.next_y = next_y
         self.alive = True
 
-    def update(self, x, y, next_x, next_y):
-        self.x = x
-        self.y = y
-        self.next_x = next_x
-        self.next_y = next_y
 
+# update variables
+data = get_data()
 
-# read all data
+me = Point(data[0], data[1])
+humans = data[2]
+zombies = data[3]
 
-# my position
-my_x, my_y = [int(i) for i in input().split()]
+humans_distance_square = [[human.dist_square(me), human] for human in humans]
+closest_human = min(humans_distance_square, key=lambda x: x[0])
 
-# fill humans list
-human_count = int(input())
-humans = []
+zombies_to_closest_human = [[zombie.dist_square(closest_human[1]), zombie] for zombie in zombies]
+closest_zombie = min(zombies_to_closest_human, key=lambda x: x[0])
 
-for i in range(human_count):
-    human_id, human_x, human_y = [int(j) for j in input().split()]
-    humans.append(Human(human_id, human_x, human_y))
+if closest_zombie[0] // ZOMBIE_MOVE_RANGE_SQUARE < me.dist_square(closest_human[1]) // MY_MOVE_RANGE_SQUARE:
+    humans_distance_square = [human_array for human_array in humans_distance_square if human_array[1].id != closest_human[1].id]
+    closest_human = min(humans_distance_square, key=lambda x: x[0])
 
-# fill zombies list
-zombie_count = int(input())
-zombies = []
-
-for i in range(zombie_count):
-    zombie_id, zombie_x, zombie_y, zombie_next_x, zombie_next_y = [int(j) for j in input().split()]
-    zombies.append(Zombie(zombie_id, zombie_x, zombie_y, zombie_next_x, zombie_next_y))
+print(f'closestHumanID: {closest_human[1].id}', file=sys.stderr, flush=True)
 
 round_ = 0
 
@@ -131,39 +144,16 @@ while True:
 
     round_ += 1
 
-    # update variables
     if round_ > 1:
+        data = get_data()
+        me = Point(data[0], data[1])
 
-        # ST_init_variable = time.time()
+    direction = me.move_to_target(closest_human[1])
 
-        my_x, my_y = [int(i) for i in input().split()]
+    print(f'x: {direction.x} y: {direction.y}', file=sys.stderr, flush=True)
 
-        human_count = int(input())
-        humans = humans[:human_count]
-        for i in range(human_count):
-            human_id, human_x, human_y = [int(j) for j in input().split()]
-            humans[i].update(human_x, human_y)
-
-        zombie_count = int(input())
-        zombies = zombies[:zombie_count]
-        for i in range(zombie_count):
-            zombie_id, zombie_x, zombie_y, zombie_next_x, zombie_next_y = [int(j) for j in input().split()]
-            zombies[i].update(zombie_x, zombie_y, zombie_next_x, zombie_next_y)
-
-    me = Point(my_x, my_y)
-
-    human_distance_square = [[human.dist_square(me), human.id] for human in humans]
-    closest_human = min(human_distance_square, key=lambda x: x[0])
-
-    print(closest_human[1], file=sys.stderr, flush=True)
-
-    direction = me.move_to_target(humans[closest_human[1]])
-
-    print(direction.x, direction.y, file=sys.stderr, flush=True)
-
-    solution_x = truncate_value(my_x + direction.x, 0, 15999)
-    solution_y = truncate_value(my_y + direction.y, 0, 8999)
+    solution_x = truncate_value(me.x + direction.x, 0, 15999)
+    solution_y = truncate_value(me.y + direction.y, 0, 8999)
 
     print(f'{round(solution_x)} {round(solution_y)}')
 
-    # print(f'poolLength: {pool_length}', file=sys.stderr, flush=True)
