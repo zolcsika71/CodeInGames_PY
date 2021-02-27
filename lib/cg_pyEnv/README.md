@@ -6,23 +6,23 @@ Simple script to collect python class definitions across multiple files with `bu
 
 ## Installation
 
-install it by downloading the package from 
+Install it by downloading the package from 
  ``github`` and running ``pip install <folder where cg_pyEnv is located>``
 
 ## Sample Workflow
 project structure:
 
-codInGame/
+    codInGame/
 
-    lib/
-         your packages/
-         cg_pyEnv/
-    
-    any_project/ # for example 'mars_lander'   
+        lib/
+             your packages/
+             cg_pyEnv/
+        
+        any_project/ # for example 'mars_lander'
      
 
-in project folder simply run build xxx.py
-...or define a file watcher in your IDE 
+In project folder (any_project for example) simply run build xxx.py, or define a file watcher in your IDE 
+output will be cg.py in your project folder
 
 ## Issues
 
