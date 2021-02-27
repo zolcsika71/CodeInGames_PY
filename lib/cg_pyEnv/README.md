@@ -6,7 +6,7 @@ Simple script to collect python class definitions across multiple files with `bu
 
 ## Install
 
-Download the package from github and run pip install <folder where cg_pyEnv is located>
+Download the package from github and run pip install '<folder where cg_pyEnv is located>'
 
 ## Sample Workflow
 project structure:
