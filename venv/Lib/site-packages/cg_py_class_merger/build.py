@@ -20,12 +20,10 @@ def parse_import(line):
     f_loc = [t for t in f_loc.split('.') if len(t) > 0]
     f_loc = '/'.join(f_loc) + '.py'
     f_loc = '../' + f_loc
-    # print(f'{f_loc}', file=sys.stderr, flush=True)
     return f_loc
 
 
 def flush_imports(o_stream, import_files):
-    # print(f'Importing files: {import_files}', file=sys.stderr, flush=True)
     for file in import_files:
         main.is_importing = False
         with open(file, 'r') as f_in:
@@ -54,7 +52,6 @@ def main():
                     # Start import
                     is_importing = True
                 elif line.strip() == "# END_IMPORT":
-                    # print(f'line: {line}', file=sys.stderr, flush=True)
                     # Stop import
                     is_importing = False
                     flush_imports(f_out, imported_files)
