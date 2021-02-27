@@ -15,7 +15,7 @@ project structure:
     codInGame/
 
         lib/
-             your packages/
+             your_packages/
              cg_pyEnv/
         
         any_project/ # for example 'mars_lander'
