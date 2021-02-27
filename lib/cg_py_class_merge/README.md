@@ -7,7 +7,7 @@ Simple script to collect python class definitions across multiple files with `bu
 ## Installation
 
 Install it by downloading the package from 
- ``github`` and running ``pip install <folder where cg_pyEnv is located>``
+ ``github`` and running ``pip install <folder where cg_py_class_merger is located>``
 
 ## Sample Workflow
 project structure:
@@ -16,7 +16,7 @@ project structure:
 
         lib/
              your_packages/
-             cg_pyEnv/
+             cg_py_class_merger/
         
         any_project/ # for example 'mars_lander'
      
