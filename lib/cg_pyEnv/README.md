@@ -11,12 +11,13 @@ Download the package from github and run pip install **<folder where cg_pyEnv is
 ## Sample Workflow
 project structure:
 
-codInGame:
-     lib/
-          your packages
-          cg_pyEnv
+codInGame/
 
-     any_project/ # for example 'mars_lander'   
+lib/
+     your packages
+     cg_pyEnv
+
+any_project/ # for example 'mars_lander'   
      
 
 in project folder simply run build xxx.py
