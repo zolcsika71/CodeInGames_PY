@@ -21,8 +21,8 @@ project structure:
         any_project/ # for example 'mars_lander'
      
 
-In project folder (any_project for example) simply run build xxx.py, or define a file watcher in your IDE 
-output will be cg.py in your project folder
+In project folder (mars_lander for example) simply run build xxx.py, or define a file watcher in your IDE.
+Output will be cg.py in your project folder
 
 ## Issues
 
