@@ -23,7 +23,7 @@ Install it by downloading the package from
 
 In any_project folder (mars_lander for example) simply run build xxx.py, or define a file watcher in your IDE.
 
-Output will be cg.py in your project folder
+Output will be cg.py in your any_project folder
 
 ## Issues
 
