@@ -10,13 +10,17 @@ Download the package from github and run pip install **<folder where cg_pyEnv is
 
 ## Sample Workflow
 project structure:
+
  /codingame
+
    /lib
      /your packages
      /cg_pyEnv
+
    /project # for example 'mars_lander'
 
 in project folder simply run build xxx.py
+...or define a file watcher in your IDE 
 
 ## Issues
 
