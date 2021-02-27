@@ -1,9 +1,3 @@
-import sys
-import math
-import string
-
-from lib.classes import matrix_
-
 # Auto-generated code below aims at helping you parse
 # the standard input according to the problem statement.
 
@@ -11,6 +5,14 @@ from lib.classes import matrix_
 # for k in range(n):
 #     line = input()
 
+# IMPORT
+from lib.classes.matrix_ import *
+# END_IMPORT
 
-game = matrix_.initialize(5, 5, 'A')
+
+game = initialize(5, 5, 'A')
 game.print_matrix()
+
+
+
+

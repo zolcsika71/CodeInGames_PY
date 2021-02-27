@@ -1,3 +1,10 @@
+# Auto-generated code below aims at helping you parse
+# the standard input according to the problem statement.
+
+# n = int(input())
+# for k in range(n):
+#     line = input()
+
 def initialize(rows, columns, value=''):
     return Matrix(rows, columns, value)
 
@@ -34,3 +41,11 @@ class Matrix(object):
             for column in range(self.columns):
                 print(self[row][column], end='')
             print('\r')
+
+
+game = initialize(5, 5, 'A')
+game.print_matrix()
+
+
+
+
