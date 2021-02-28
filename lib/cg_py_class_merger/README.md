@@ -63,7 +63,11 @@ PyCharm config for file watcher:
 
 Output will be ``cg.py`` in your ``any_project`` folder
 
-Examples: https://github.com/zolcsika71/CodeInGames_PY
+Examples:
+
+https://github.com/zolcsika71/CodeInGames_PY
+https://github.com/zolcsika71/CodeInGames_PY/tree/main/merge_test
+https://github.com/zolcsika71/CodeInGames_PY/tree/main/ClashOfCodes
 
 ## Issues
 

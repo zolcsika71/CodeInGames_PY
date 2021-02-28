@@ -43,6 +43,11 @@ def flush_imports(o_stream, import_files):
 
 
 def main():
+
+    if 'lib\\cg_py_class_merger\\cg_py_class_merger\\' in path:
+        print(f'build.py does not need it', file=sys.stderr, flush=True)
+        exit()
+
     is_importing = False
     imported_files = []
     with open(path + output_file, 'w') as f_out:
