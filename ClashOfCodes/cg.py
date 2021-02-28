@@ -36,8 +36,6 @@ class Matrix(object):
             print('\r')
 
 
-data = []
-
 n = int(input())
 for k in range(n):
     line = input()

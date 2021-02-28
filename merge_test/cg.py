@@ -6,9 +6,7 @@ import math
 import time
 # etc...
 
-# Imports compatible with normal python execution but will
-# be grabbed by our pre-compilation script with #IMPORT tag
-# TODO:  import specific_tokens is not currently supported
+
 # Performance monitoring
 
 
@@ -33,6 +31,6 @@ def run():
     init_t = time.time()
     first_func()
     debug_time(f"Time:", init_t, time.time())
-
+    
 
 run()

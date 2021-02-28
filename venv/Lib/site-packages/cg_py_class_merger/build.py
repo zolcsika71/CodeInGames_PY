@@ -55,6 +55,7 @@ def main():
                     # Stop import
                     is_importing = False
                     flush_imports(f_out, imported_files)
+                    f_out.write('\n')
                 elif is_importing:
                     line_args = line.split()
                     if len(line_args) > 0 and (line_args[0] == 'from' or line_args[0] == 'import'):
