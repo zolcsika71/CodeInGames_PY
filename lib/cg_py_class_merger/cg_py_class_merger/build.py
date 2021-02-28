@@ -44,6 +44,7 @@ def flush_imports(o_stream, import_files):
 
 def main():
 
+    # pyCharm file watcher exclusion
     if 'lib\\cg_py_class_merger\\cg_py_class_merger\\' in path:
         print(f'build.py does not need it', file=sys.stderr, flush=True)
         exit()
