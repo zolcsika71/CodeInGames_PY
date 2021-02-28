@@ -13,9 +13,6 @@ from lib.functions.Second_ import *
 from lib.functions.First_ import *
 # END_IMPORT
 
-data = []
-
-
 def run():
     init_t = time.time()
     first_func()

@@ -24,13 +24,10 @@ def first_func():
     second_func()
 
 
-data = []
-
-
 def run():
     init_t = time.time()
     first_func()
     debug_time(f"Time:", init_t, time.time())
-    
+
 
 run()

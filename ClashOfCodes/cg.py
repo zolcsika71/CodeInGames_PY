@@ -36,9 +36,9 @@ class Matrix(object):
             print('\r')
 
 
-n = int(input())
-for k in range(n):
-    line = input()
+# n = int(input())
+# for k in range(n):
+#     line = input()
 
 game = initialize(5, 5, 'A')
 game.print_matrix()
