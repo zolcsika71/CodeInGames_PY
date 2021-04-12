@@ -40,7 +40,7 @@ def get_result(a_player, b_player):
             b_player.win = True
 
     else:
-        if (a_player.move - b_player.move) % 5 in [1, 3]:
+        if (a_player.move - b_player.move) % RULE_LENGTH in [1, 3]:
             a_player.win = True
             b_player.win = False
 

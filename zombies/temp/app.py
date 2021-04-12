@@ -15,7 +15,7 @@ def rnd(n, b=0):
 
 
 def base_vector(point1, point2):
-    return Vector(point2.x - point1.x, point2.y - point1.y)
+    return Vector(point2.number - point1.number, point2.y - point1.y)
 
 
 def truncate_value(x, min_, max_):
@@ -24,9 +24,9 @@ def truncate_value(x, min_, max_):
 
 def fib(n):
     result = [0, 1]
-    for i in range(2, n):
-        a = result[i - 1]
-        b = result[i - 2]
+    for n in range(2, n):
+        a = result[n - 1]
+        b = result[n - 2]
         result.append(a + b)
 
     return result[n]
@@ -44,10 +44,10 @@ class Vector:
         return math.sqrt(self.x ** 2 + self.y ** 2)
 
     def truncate(self, max_value):
-        i = max_value / self.magnitude()
-        if i < 1:
-            i = 1
-        return self.multiply(i)
+        n = max_value / self.magnitude()
+        if n < 1:
+            n = 1
+        return self.multiply(n)
 
 
 class Point:
@@ -56,7 +56,7 @@ class Point:
         self.y = y
 
     def dist_square(self, point):
-        x = self.x - point.x
+        x = self.x - point.number
         y = self.y - point.y
         return x ** 2 + y ** 2
 
@@ -74,7 +74,7 @@ class Sim(Point):
         self.human_killed = 0
 
     def save(self):
-        self.cache.x = self.x
+        self.cache.number = self.x
         self.cache.y = self.y
         self.cache.humans = deepcopy(self.humans)
         self.cache.zombies = deepcopy(self.zombies)
@@ -82,7 +82,7 @@ class Sim(Point):
         self.cache.human_killed = self.human_killed
 
     def load(self):
-        self.x = self.cache.x
+        self.x = self.cache.number
         self.y = self.cache.y
         self.humans = deepcopy(self.cache.humans)
         self.zombies = deepcopy(self.cache.zombies)
@@ -139,7 +139,7 @@ class GeneticAlgorithm:
         candidate = Candidate(id_)
         r = rnd(1, DEPTH)
 
-        for i in range(r):
+        for n in range(r):
             random_position = self.create_random_position()
             candidate.coords.append(random_position)
 
@@ -174,13 +174,13 @@ class GeneticAlgorithm:
             candidate.score = float('-inf')
 
     def add_candidates(self, number_of_candidates):
-        for i in range(number_of_candidates):
-            self.candidates.append(self.generator(i))
+        for n in range(number_of_candidates):
+            self.candidates.append(self.generator(n))
 
     def merge(self, merged_number):
         first_index = None
         second_index = None
-        for i in range(merged_number):
+        for n in range(merged_number):
             candidates_length = len(self.candidates)
             first_index = rnd(candidates_length - 1)
             second_index = (first_index + rnd(candidates_length - 1)) % candidates_length
@@ -203,14 +203,14 @@ problem = GeneticAlgorithm()
 # read all data
 
 # my position
-my_x, my_y = [int(i) for i in input().split()]
+my_x, my_y = [int(n) for n in input().split()]
 
 
 # fill humans list
 human_count = int(input())
 humans = []
 
-for i in range(human_count):
+for n in range(human_count):
     human_id, human_x, human_y = [int(j) for j in input().split()]
     humans.append(Human(human_id, human_x, human_y))
 
@@ -218,7 +218,7 @@ for i in range(human_count):
 zombie_count = int(input())
 zombies = []
 
-for i in range(zombie_count):
+for n in range(zombie_count):
     zombie_id, zombie_x, zombie_y, zombie_next_x, zombie_next_y = [int(j) for j in input().split()]
     zombies.append(Zombie(zombie_id, zombie_x, zombie_y, zombie_next_x, zombie_next_y))
 
@@ -232,7 +232,7 @@ class CandidateOperations:
         candidate = Candidate(id_)
         r = rnd(1, DEPTH)
 
-        for i in range(r):
+        for n in range(r):
             random_position = self.create_random_position()
             candidate.coords.append(random_position)
 
