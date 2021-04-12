@@ -4,9 +4,9 @@
 """"
 def fib(n):
     result = [0, 1]
-    for i in range(2, n + 1):
-        a = result[i - 1]
-        b = result[i - 2]
+    for n in range(2, n + 1):
+        a = result[n - 1]
+        b = result[n - 2]
         result.append(a + b)
 
     return result[n]

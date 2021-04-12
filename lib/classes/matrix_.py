@@ -8,7 +8,7 @@ class Matrix(object):
         self.columns = columns
         self.line = 'ABCDEFGHI'  # length = (rows - 2) * (columns - 2)
         self.matrix = []
-        for i in range(rows):
+        for n in range(rows):
             self.matrix.append([value for j in range(columns)])
 
         self.update_table()

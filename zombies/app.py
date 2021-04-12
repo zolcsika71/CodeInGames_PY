@@ -35,13 +35,13 @@ def truncate_value(x, min_, max_):
 
 def get_data():
 
-    my_x, my_y = [int(i) for i in input().split()]
+    my_x, my_y = [int(n) for n in input().split()]
 
     # fill humans_ list
     human_count = int(input())
     humans_ = []
 
-    for i in range(human_count):
+    for n in range(human_count):
         human_id, human_x, human_y = [int(j) for j in input().split()]
         humans_.append(Human(human_id, human_x, human_y))
 
@@ -49,7 +49,7 @@ def get_data():
     zombie_count = int(input())
     zombies_ = []
 
-    for i in range(zombie_count):
+    for n in range(zombie_count):
         zombie_id, zombie_x, zombie_y, zombie_next_x, zombie_next_y = [int(j) for j in input().split()]
         zombies_.append(Zombie(zombie_id, zombie_x, zombie_y, zombie_next_x, zombie_next_y))
 
@@ -68,15 +68,15 @@ class Vector:
         return math.sqrt(self.x ** 2 + self.y ** 2)
 
     def truncate(self, max_value):
-        i = max_value / self.magnitude()
+        n = max_value / self.magnitude()
 
-        if i > 1:
-            i = 1
+        if n > 1:
+            n = 1
 
-        return self.multiply(i)
+        return self.multiply(n)
 
     def base_vector(self, point):
-        return Vector(point.x - self.x, point.y - self.y)
+        return Vector(point.number - self.x, point.y - self.y)
 
     def move_to_target(self, point):
 
@@ -95,7 +95,7 @@ class Point(Vector):
         self.y = y
 
     def dist_square(self, point):
-        x = self.x - point.x
+        x = self.x - point.number
         y = self.y - point.y
         return x ** 2 + y ** 2
 

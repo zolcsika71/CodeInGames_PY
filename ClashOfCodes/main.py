@@ -1,10 +1,15 @@
+import sys
+import math
+
 # IMPORT
-from lib.classes.matrix_ import *
+from lib.functions.Util_ import *
 # END_IMPORT
 
-# n = int(input())
-# for k in range(n):
-#     line = input()
+t = int(input())
+a = int(input())
+b = int(input())
 
-game = initialize(5, 5, 'A')
-game.print_matrix()
+results = fib(t, a, b)
+
+for result in results:
+    print(result)
