@@ -1,5 +1,3 @@
-import sys
-
 n = int(input())
 
 RULE = ['R', 'P', 'C', 'S', 'L']
@@ -52,7 +50,7 @@ def get_result(a_player, b_player):
     b_player.opponents.append(str(a_player.id))
 
 
-def get_current_matches(players_):
+def play_current_matches(players_):
     for i in range(0, len(players_) - 1, 2):
         get_result(players_[i], players_[i + 1])
 
@@ -60,7 +58,7 @@ def get_current_matches(players_):
 players = get_data()
 
 while len(players) > 1:
-    get_current_matches(players)
+    play_current_matches(players)
     players = [player for player in players if player.win is True]
 
 print(players[0].id)
