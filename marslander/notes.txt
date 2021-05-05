@@ -1,0 +1,98 @@
+
+Sim:
+
+https://www.codingame.com/forum/t/mars-the-game/756
+
+tan x = a / b
+
+
+def getNextState(lander : Lander, action : Action) : Lander = {
+        var nextP = lander.power + action.power
+        var nextFuel = lander.fuel - nextP
+        var nextAngle = lander.angle + action.angle
+        var nextX = 2 * lander.x - lander.prevX - nextP * sin(toRadians(nextAngle))
+        var nextY = 2 * lander.y - lander.prevY - g + nextP * cos(toRadians(nextAngle))
+        var nextVx = lander.hSpeed - nextP * sin(toRadians(nextAngle))
+        var nextVy = lander.vSpeed - g + nextP * cos(toRadians(nextAngle))
+        var nextLander = Lander(nextX, nextY, lander.x, lander.y, nextVx, nextVy, nextFuel, nextAngle, nextP)
+        nextLander
+        
+        
+        
+21.9
+
+
+pos = pos_initial + velocitytime + 0.5acceleration*time^2
+
+
+SIM
+
+#include <stdio.h>
+#include <math.h>
+#ifndef M_PI
+#define M_PI 3.1415926535898
+#endif
+#define G 3.711
+
+int main()
+{
+int surfaceN; // the number of points used to draw the surface of Mars.
+scanf("%d", &surfaceN);
+for(int i=0;i<surfaceN;++i) {
+int landX; // X coordinate of a surface point. (0 to 6999)
+int landY; // Y coordinate of a surface point. By linking all the points together in a sequential fashion, you form the surface of Mars.
+scanf("%d%d", &landX, &landY);
+}
+// game loop
+long double x,y,vx,vy;
+for(int k=0;;++k) {
+int X, Y;
+int hSpeed, vSpeed; // the horizontal & vertical speed (in m/s), can be negative.
+int fuel; // the quantity of remaining fuel in liters.
+int rotate; // the rotation angle in degrees (-90 to 90).
+int power; // the thrust power (0 to 4).
+scanf("%d%d%d%d%d%d%d", &X, &Y, &hSpeed, &vSpeed, &fuel, &rotate, &power);
+if(k==0) {
+x = X; y = Y;
+vx = hSpeed; vy = vSpeed;
+}
+int angle, thrust;
+// … angle & thrust calculation …
+if(angle>rotate+15) angle = rotate+15;
+if(angle<rotate-15) angle = rotate-15;
+if(thrust>power+1) thrust = power+1;
+if(thrust<power-1) thrust = power-1;
+ 
+y = y+vy+0.5(cos(angle*M_PI/180.)thrust-G);
+vx = vx-1.sin(angleM_PI/180.)thrust;
+vy = vy+1.(cos(angleM_PI/180.)*thrust-G);
+fprintf(stderr,“x -> %.0Lf ; y = %.0Lf\n”,x,y);
+fprintf(stderr,“vx -> %.0Lf ; vy = %.0Lf\n”,vx,vy);
+printf("%d %d\n",angle,thrust);
+}
+return 0;
+}[/code]
+
+
+I wrote a genetic algorithm to optimize the lander path, check it out here: https://www.reddit.com/r/genetic_algorithms/comments/549o5m/example_of_optimizing_a_moon_lander_path_in/ 187
+
+The code is on github: https://github.com/fafl/genetic-lander/ 147
+
+
+The force of gravity, g = 3.711 m/s²
+Time to splat: sqrt ( 2 * y / g )
+Velocity at splat time: sqrt( 2 * g * y )
+time = [ −vi + √(vi² + 2gy) ]/g
+
+
+Short answer: This is what it does on their server. :slight_smile:
+
+Long answer: When you are calculating integral on some continuous function with discrete steps, like the simulation is doing, (integral of velocity over time) -> distance; instead of using the function value(velocity) at the start of the time step or at the end of the time step you can use the average velocity between the 2 points. This will usually provide a more precise integration.
+
+Since in my code I update velocity before the position, when I update the position currentVelocity is actually the velocity at the end of the step. By subtracting half of the accelleration I basically remove that half velocity delta to have the average velocity between the 2 steps. The code can be confusing to understand like this but basically it is the same as writing:
+
+   currentAccelleration = thrust + GRAVITY;
+   currentVelocity = currentVelocity + currentAccelleration;
+   halfStepVelocity = currentVelocity + currentAccelleration * 0.5;
+   currentPosition = currentPosition + halfStepVelocity ; 
+

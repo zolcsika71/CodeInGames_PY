@@ -1,15 +1,20 @@
 import sys
 import math
+import numpy as np
 
-# IMPORT
-from lib.functions.Util_ import *
-# END_IMPORT
+# Auto-generated code below aims at helping you parse
+# the standard input according to the problem statement.
 
-t = int(input())
-a = int(input())
-b = int(input())
+h = int(input())
+w = int(input())
+matrix = np.array([])
 
-results = fib(t, a, b)
+x, y = [int(i) for i in input().split()]
 
-for result in results:
-    print(result)
+for i in range(h):
+    row = np.array(list(input()))
+    matrix = np.concatenate((row, matrix))
+
+matrix = matrix.reshape(h, w)
+
+print(matrix[x - 1][y])
