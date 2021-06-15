@@ -1,29 +1,16 @@
 import sys
 import math
 
-# Utils
+# Auto-generated code below aims at helping you parse
+# the standard input according to the problem statement.
 
+n, wall_length = [int(i) for i in input().split()]
+queries = []
+for i in range(n):
+    a, b = [int(j) for j in input().split()]
+    queries.append([a, b])
 
-def debug_time(msg, init, now):
-    print(f"{msg} [{(now - init) * 1000:.3f}ms]", file=sys.stderr)
-    sys.stderr.flush()
+# print(f'{queries}')
 
+print('2')
 
-def fib(n_, a_, b_):
-    result_ = [a_, b_]
-    for n_ in range(2, n_ + 1):
-        a_ = result_[n_ - 1]
-        b_ = result_[n_ - 2]
-        result_.append(a_ + b_)
-
-    return result_
-
-
-t = int(input())
-a = int(input())
-b = int(input())
-
-results = fib(t, a, b)
-
-for result in results:
-    print(result)

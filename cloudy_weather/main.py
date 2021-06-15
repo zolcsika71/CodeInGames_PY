@@ -8,7 +8,6 @@ import math
 
 class Graph:
     def __init__(self):
-        self.start = None
         self.destination = None
         self.current = None
         self.nodes = {}
@@ -19,20 +18,25 @@ class Graph:
         return str(x_) + ' ' + str(y_)
 
     @staticmethod
-    def id_to_coord(object_id):
-        return [int(i) for i in object_id.split()]
+    def id_to_coord(cell_id):
+        return [int(i) for i in cell_id.split()]
 
     def run(self):
         self.get_input()
+        self.solve()
 
     def get_input(self):
         xs, ys = [int(i) for i in input().split()]
 
-        self.add_node(xs, ys, 0, False)
+        cell_id = self.coord_to_id(xs, ys)
+
+        self.add_node(cell_id, 0, False)
 
         xd, yd = [int(i) for i in input().split()]
 
-        self.add_node(xd, yd, math.inf, False)
+        cell_id = self.coord_to_id(xd, yd)
+
+        self.add_node(cell_id, math.inf, False)
 
         n = int(input())
 
@@ -40,20 +44,27 @@ class Graph:
             xi, yi, wi, hi = [int(j) for j in input().split()]
             for x in range(xi, xi + wi):
                 for y in range(yi, yi + hi):
-                    self.add_node(x, y, math.inf, True)
+                    cell_id = self.coord_to_id(x, y)
+                    self.add_node(cell_id, math.inf, True)
 
-        self.start = self.current = self.coord_to_id(xs, ys)
+        self.current = self.coord_to_id(xs, ys)
         self.destination = self.coord_to_id(xd, yd)
 
-    def add_node(self, x_, y_, distance, cloudy, visited=False):
-        object_id = self.coord_to_id(x_, y_)
-        self.nodes[object_id] = {
+    def add_node(self, cell_id, distance, cloudy, visited=False):
+        self.nodes[cell_id] = {
             'distance': distance,
             'cloudy': cloudy,
             'visited': visited
         }
 
-    def get_neighbours(self):
+    def update_node(self, cell_id, distance):
+        if self.nodes[cell_id]['distance'] > distance:
+            self.nodes[cell_id]['distance'] = distance
+
+    def solve(self):
+        self.update_graph()
+
+    def update_graph(self):
         x, y = self.id_to_coord(self.current)
 
         left = self.coord_to_id(x - 1, y)
@@ -61,14 +72,29 @@ class Graph:
         top = self.coord_to_id(x, y - 1)
         down = self.coord_to_id(x, y + 1)
 
-        if self.nodes[left] is None:
-            self.add_node(x - 1, y, 1, False)
-        if self.nodes[right] is None:
-            self.add_node(x + 1, y, 1, False)
-        if self.nodes[top] is None:
-            self.add_node(x, y - 1, 1, False)
-        if self.nodes[down] is None:
-            self.add_node(x, y + 1, False)
+        neighbors = [left, right, top, down]
+
+        for neigh in neighbors:
+            if neigh not in self.nodes.keys():
+                distance = self.nodes[self.current]['distance'] + 1
+                self.add_node(neigh, distance, False)
+            elif not self.nodes[neigh]['cloudy'] or not self.nodes[neigh]['visited']:
+                distance = self.nodes[self.current]['distance'] + 1
+                self.update_node(neigh, distance)
+
+        self.nodes[self.current]['visited'] = True
+
+        print(f'current: {self.current} {self.nodes[self.current]}')
+
+        next_node = self.next_node(neighbors)
+
+        print(f'next node {next_node}')
+
+    def next_node(self, neighbors):
+        return min(neigh['distance'] for neigh in self.nodes[neighbors] if not neigh['visited'])
 
 
 graph = Graph()
+graph.run()
+
+print(f'start: {graph.current} destination: {graph.destination}')

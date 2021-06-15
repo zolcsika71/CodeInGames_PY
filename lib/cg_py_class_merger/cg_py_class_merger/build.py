@@ -10,12 +10,14 @@ input_file = sys.argv[1]
 path = str(pathlib.Path().absolute()) + '\\'
 
 
+# parent = str(pathlib.Path().absolute().parent)
+
 def parse_import(line):
     f_loc = ''
     line_args = line.strip().split()
-    for i, w in enumerate(line_args):
+    for n, w in enumerate(line_args):
         if w == 'from':
-            f_loc = line_args[i + 1]
+            f_loc = line_args[n + 1]
             break
     f_loc = [t for t in f_loc.split('.') if len(t) > 0]
     f_loc = '/'.join(f_loc) + '.py'
@@ -43,7 +45,6 @@ def flush_imports(o_stream, import_files):
 
 
 def main():
-
     # pyCharm file watcher exclusion
     if 'lib\\cg_py_class_merger\\cg_py_class_merger\\' in path:
         print(f'build.py does not need it', file=sys.stderr, flush=True)
