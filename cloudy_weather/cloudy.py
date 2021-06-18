@@ -4,7 +4,7 @@ from queue import PriorityQueue
 
 
 class Node:
-    def __init__(self, col, row, barrier, start, end):
+    def __init__(self, row, col, barrier, start, end):
         self.neighbors = []
         self.row = row
         self.col = col
@@ -42,33 +42,30 @@ class Node:
 
 class Main:
     def __init__(self):
-        self.nodes = {}
-        self.graph = []
+        self.clouds = []
+        self.start = []
+        self.end = []
+        self.graph = None
         self.start = None
         self.end = None
         self.columns = -math.inf
         self.rows = -math.inf
 
-    @staticmethod
-    def coord_to_id(x_, y_):
-        return str(x_) + ' ' + str(y_)
-
-    @staticmethod
-    def id_to_coord(cell_id):
-        return [int(i) for i in cell_id.split()]
-
     def run(self):
         self.get_input()
-        self.make_grid()
-        self.get_neighbours()
+        # self.make_grid()
+        # self.get_neighbours()
         # self.print_graph()
 
     def get_input(self):
-        xs, ys = [int(i) for i in input().split()]
-        self.add_node(xs, ys, False, True, False)
 
-        xd, yd = [int(i) for i in input().split()]
-        self.add_node(xd, yd, False, False, True)
+        # xs, ys
+        self.start = [int(i) for i in input().split()]
+        print(self.start)
+
+        # xd, xs
+        self.end = [int(i) for i in input().split()]
+        print(self.end)
 
         n = int(input())
 
@@ -76,16 +73,12 @@ class Main:
             xi, yi, wi, hi = [int(j) for j in input().split()]
 
             self.clouds_extend_dim(xi, yi, wi, hi)
+            self.clouds.append([xi, yi, wi, hi])
 
-            for x in range(xi, xi + wi):
-                for y in range(yi, yi + hi):
-                    self.add_node(x, y, True, False, False)
-
-        self.coords_extend_dim(xs, ys, xd, yd)
+        self.coords_extend_dim(self.start, self.end)
         self.extend_dim()
 
-    def add_node(self, col, row, barrier, start, end):
-        self.nodes[self.coord_to_id(col, row)] = Node(col, row, barrier, start, end)
+        print(f'x: {self.columns} y: {self.columns}')
 
     def clouds_extend_dim(self, xi, yi, wi, hi):
 
@@ -94,37 +87,36 @@ class Main:
         if yi + hi > self.rows:
             self.rows = yi + hi
 
-    def coords_extend_dim(self, xs, ys, xd, yd):
+    def coords_extend_dim(self, start, end):
 
-        if xs > self.columns:
-            self.columns = xs
-        if xd > self.columns:
-            self.columns = xd
-        if ys > self.rows:
-            self.rows = ys
-        if yd > self.rows:
-            self.rows = yd
+        if start[0] > self.columns:
+            self.columns = start[0]
+        if start[1] > self.rows:
+            self.rows = start[1]
+        if end[0] > self.columns:
+            self.columns = end[0]
+        if end[1] > self.rows:
+            self.rows = end[1]
 
     def extend_dim(self):
         self.columns += 1
         self.rows += 1
 
     def make_grid(self):
+
+        self.graph = np.empty((self.rows, self.columns))
+
         for row in range(self.rows):
-            self.graph.append([])
             for col in range(self.columns):
-                try:
-                    node = self.nodes[self.coord_to_id(col, row)]
-                    if node.start:
-                        self.start = node
-                    if node.end:
-                        self.end = node
-
-                    self.graph[row].append(node)
-
-                except KeyError:
-                    node = Node(col, row, False, False, False)
-                    self.graph[row].append(node)
+                # start node
+                if row == self.start[1] and col == self.start[0]:
+                    self.graph[row, col] = Node(row, col, False, True, False)
+                # end node
+                if row == self.end[1] and col == self.end[0]:
+                    self.graph[row, col] = Node(row, col, False, False, True)
+                # clouds
+                for cloud in self.clouds:
+                    pass
 
     def get_neighbours(self):
         for row in self.graph:
@@ -154,3 +146,4 @@ class Main:
 if __name__ == '__main__':
     main = Main()
     main.run()
+    print('Done')
